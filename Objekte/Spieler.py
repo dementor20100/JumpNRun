@@ -1,7 +1,7 @@
 import pygame
 
-class spieler:
-    def __init__(self,x,y,geschw,breite,hoehe,sprungvar,richtg,schritteRechts,schritteLinks):
+class Spieler:
+    def __init__(self,x,y,geschw,breite,hoehe,sprungvar,richtg,schritteRechts,schritteLinks,screen):
         self.x = x
         self.y = y
         self.geschw = geschw
@@ -11,6 +11,13 @@ class spieler:
         self.richtg = richtg
         self.schritteRechts = schritteRechts
         self.schritteLinks = schritteLinks
+        self.soundSprung = pygame.mixer.Sound("Sounds/sprung.wav")
+        self.bildSprung = pygame.image.load("Grafiken/sprung.png")
+        self.bildRechtsGehen = [pygame.image.load("Grafiken/rechts1.png"),pygame.image.load("Grafiken/rechts2.png"),pygame.image.load("Grafiken/rechts3.png"),pygame.image.load("Grafiken/rechts4.png"),pygame.image.load("Grafiken/rechts5.png"),pygame.image.load("Grafiken/rechts6.png"),pygame.image.load("Grafiken/rechts7.png"),pygame.image.load("Grafiken/rechts8.png")]
+        self.bildLinksGehen = [pygame.image.load("Grafiken/links1.png"),pygame.image.load("Grafiken/links2.png"),pygame.image.load("Grafiken/links3.png"),pygame.image.load("Grafiken/links4.png"),pygame.image.load("Grafiken/links5.png"),pygame.image.load("Grafiken/links6.png"),pygame.image.load("Grafiken/links7.png"),pygame.image.load("Grafiken/links8.png")]
+        self.bildLinksAngriff = pygame.image.load("Grafiken/angriffLinks.png")
+        self.bildRechtsAngriff = pygame.image.load("Grafiken/angriffRechts.png")
+        self.screen=screen
         self.sprung = False
         self.last = [1,0]
         self.ok = True
@@ -33,7 +40,7 @@ class spieler:
         if self.sprungvar == -16:
             self.sprung = True
             self.sprungvar = 15
-            pygame.mixer.Sound.play(sprungSound)
+            pygame.mixer.Sound.play(self.soundSprung)
     def springen(self):
         if self.sprung:
             self.richtg = [0,0,0,1]
@@ -45,25 +52,25 @@ class spieler:
                 self.sprungvar -= 1
             else:
                 self.sprung = False
-    def spZeichnen(self):
+    def zeichnen(self):
         if self.schritteRechts == 63:
             self.schritteRechts = 0
         if self.schritteLinks == 63:
             self.schritteLinks = 0
  
         if self.richtg[0]:
-            screen.blit(linksGehen[self.schritteLinks//8], (self.x,self.y))
+            self.screen.blit(self.bildLinksGehen[self.schritteLinks//8], (self.x,self.y))
             self.last = [1,0]
  
         if self.richtg[1]:
-            screen.blit(rechtsGehen[self.schritteRechts//8], (self.x,self.y))
+            self.screen.blit(self.bildRechtsGehen[self.schritteRechts//8], (self.x,self.y))
             self.last = [0,1]
  
         if self.richtg[2]:
             if self.last[0]:
-                screen.blit(angriffLinks, (self.x,self.y))
+                self.screen.blit(self.bildLinksAngriff, (self.x,self.y))
             else:
-                screen.blit(angriffRechts, (self.x,self.y))
+                self.screen.blit(self.bildRechtsAngriff, (self.x,self.y))
  
         if self.richtg[3]:
-            screen.blit(sprung, (self.x,self.y))
+            self.screen.blit(self.bildSprung, (self.x,self.y))
