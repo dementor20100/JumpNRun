@@ -4,14 +4,11 @@ import sys
 from Objekte.Spieler import Spieler
 from Objekte.Kugel import Kugel
 from Objekte.Zombie import Zombie
-from Objekte.Util import Util
  
 pygame.init()
-
 hintergrund = pygame.image.load("Grafiken/hintergrund.png")
 screen = pygame.display.set_mode([1200,595])
 clock = pygame.time.Clock()
-
 pygame.display.set_caption("Pygame Tutorial")
  
 siegSound = pygame.mixer.Sound("Sounds/robosieg.wav")
@@ -95,7 +92,6 @@ while restart:
 
         if gedrueckt[pygame.K_w]:
             spieler.sprungSetzen()
-
         spieler.springen()
     
         if gedrueckt[pygame.K_SPACE]:
